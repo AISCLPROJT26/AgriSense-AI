@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="main-navbar">
+
+    <!-- LOGO -->
+    <div class="brand">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI"
+            class="brand-logo">
+
+        <div class="brand-text">
+            <h2>AgriSense <span>AI</span></h2>
+            <p>Smart Farming Assistant</p>
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}" class="active">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('crops') }}">
+            🌱 Crop Recommendation
+        </a>
+
+        <a href="{{ url_for('disease') }}">
+            🛡️ Disease Detection
+        </a>
+
+        <a href="{{ url_for('weather') }}">
+            ☁️ Weather Forecast
+        </a>
+
+        <a href="{{ url_for('history') }}">
+            📋 Farming History
+        </a>
+
+        <a href="{{ url_for('about') }}">
+            ⓘ About
+        </a>
+
+    </div>
+
+
+    <!-- USER ACTIONS -->
+
+    <div class="nav-actions">
+
+        <div class="user-pill">
+            👤 {{ name }}
+        </div>
+
+        <a href="{{ url_for('guest') }}"
+           class="change-guest">
+            🔄 Change Guest
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout-btn">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="dashboard-main">
+
+
+    <!-- HERO -->
+
+    <section class="dashboard-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-tag">
+                SMART FARMING DASHBOARD
+            </div>
+
+            <h1>
+                Hello, {{ name }}! 👋
+            </h1>
+
+            <p>
+                Welcome back to your smart farming assistant.
+                What would you like to do today?
+            </p>
+
+        </div>
+
+
+        <div class="hero-plant">
+            🌱
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURE CARDS ================= -->
+
+    <section class="feature-grid">
+
+
+        <!-- CROP -->
+
+        <a href="{{ url_for('crops') }}"
+           class="feature-card">
+
+            <div class="feature-icon crop-icon">
+                🌾
+            </div>
+
+            <h2>
+                Crop Recommendation
+            </h2>
+
+            <p>
+                Find the most suitable crop based on
+                soil and environmental conditions.
+            </p>
+
+            <span class="card-link">
+                Get Recommendation →
+            </span>
+
+        </a>
+
+
+        <!-- DISEASE -->
+
+        <a href="{{ url_for('disease') }}"
+           class="feature-card">
+
+            <div class="feature-icon disease-icon">
+                🦠
+            </div>
+
+            <h2>
+                Disease Detection
+            </h2>
+
+            <p>
+                Upload a plant image and check for
+                possible diseases.
+            </p>
+
+            <span class="card-link">
+                Check Plant Health →
+            </span>
+
+        </a>
+
+
+        <!-- WEATHER -->
+
+        <a href="{{ url_for('weather') }}"
+           class="feature-card">
+
+            <div class="feature-icon weather-icon">
+                🌦️
+            </div>
+
+            <h2>
+                Weather Forecast
+            </h2>
+
+            <p>
+                Check weather conditions and plan
+                your farming activities.
+            </p>
+
+            <span class="card-link">
+                Check Weather →
+            </span>
+
+        </a>
+
+
+        <!-- HISTORY -->
+
+        <a href="{{ url_for('history') }}"
+           class="feature-card">
+
+            <div class="feature-icon history-icon">
+                📋
+            </div>
+
+            <h2>
+                Farming History
+            </h2>
+
+            <p>
+                View your previous recommendations
+                and farming activity.
+            </p>
+
+            <span class="card-link">
+                View History →
+            </span>
+
+        </a>
+
+
+        <!-- ABOUT -->
+
+        <a href="{{ url_for('about') }}"
+           class="feature-card">
+
+            <div class="feature-icon about-icon">
+                ℹ️
+            </div>
+
+            <h2>
+                About AgriSense AI
+            </h2>
+
+            <p>
+                Learn about AgriSense AI, its features,
+                technology, and project purpose.
+            </p>
+
+            <span class="card-link">
+                Learn More →
+            </span>
+
+        </a>
+
+
+        <!-- FARMING TIP -->
+
+        <div class="feature-card tip-card">
+
+            <div class="feature-icon tip-icon">
+                💡
+            </div>
+
+            <h2>
+                Today's Farming Tip
+            </h2>
+
+            <p>
+                Regularly monitor your crops for early
+                signs of disease. Early detection can
+                help protect crop health.
+            </p>
+
+            <span class="card-link">
+                Smart Farming → 
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FARMING SCENE ================= -->
+
+    <section class="farming-scene">
+
+        <div class="scene-overlay">
+
+            <div class="scene-content">
+
+                <h2>
+                    🌾 Smart Farming, Better Tomorrow
+                </h2>
+
+                <p>
+                    Use data-driven insights to make
+                    smarter farming decisions.
+                </p>
+
+                <div class="scene-features">
+
+                    <span>📊 Analyze</span>
+                    <span>📋 Plan</span>
+                    <span>🌱 Grow</span>
+                    <span>🏆 Succeed</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= BOTTOM TIP ================= -->
+
+    <section class="daily-tip">
+
+        <div class="daily-tip-icon">
+            🌿
+        </div>
+
+        <div>
+
+            <h3>
+                Agri Tip of the Day
+            </h3>
+
+            <p>
+                Mulching can help retain soil moisture
+                and suppress weeds. Use organic mulch
+                for better soil health.
+            </p>
+
+        </div>
+
+        <div class="tip-plant">
+            🌱
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

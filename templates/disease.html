@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Disease Detection | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI Logo"
+            class="app-logo">
+
+        <div>
+            <h2>
+                AgriSense <span>AI</span>
+            </h2>
+
+            <p>
+                Smart Farming Assistant
+            </p>
+        </div>
+
+    </div>
+
+
+    <a href="{{ url_for('dashboard') }}"
+       class="nav-button">
+
+        ← Dashboard
+
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="disease-page">
+
+
+    <!-- HEADER -->
+
+    <section class="disease-header">
+
+        <div class="disease-tag">
+            🦠 PLANT HEALTH CHECK
+        </div>
+
+        <h1>
+            Check Your Plant Health
+        </h1>
+
+        <p>
+            Upload a clear image of a plant leaf
+            and let AgriSense AI analyze it.
+        </p>
+
+    </section>
+
+
+    <!-- ================= CARD ================= -->
+
+    <section class="disease-card">
+
+
+        <!-- UPLOAD FORM -->
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    🌿
+                </div>
+
+                <h2>
+                    Upload Plant Image
+                </h2>
+
+                <p>
+                    Choose a clear photo of the affected
+                    plant leaf.
+                </p>
+
+                <input
+                    class="file-input"
+                    type="file"
+                    name="plant_image"
+                    accept=".jpg,.jpeg,.png"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="analyze-button">
+
+                🔍 Analyze Plant
+
+            </button>
+
+        </form>
+
+
+        <!-- ================= ERROR ================= -->
+
+        {% if error %}
+
+        <div class="error-box">
+
+            ⚠️ {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================= IMAGE PREVIEW ================= -->
+
+        {% if image_path %}
+
+        <div class="preview-section">
+
+            <h3>
+                📷 Uploaded Plant
+            </h3>
+
+            <img
+                src="{{ url_for('static', filename=image_path) }}"
+                alt="Uploaded Plant Image">
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================= RESULT ================= -->
+
+        {% if result %}
+
+        <div class="result-card">
+
+            <div class="result-title">
+                🌿 PLANT ANALYSIS
+            </div>
+
+
+            <h2>
+                {{ result.replace("_", " ") }}
+            </h2>
+
+
+            {% if confidence %}
+
+            <div class="confidence">
+
+                📊 Confidence:
+                {{ "%.2f"|format(confidence|float) }}%
+
+            </div>
+
+            {% endif %}
+
+
+            {% if suggestion %}
+
+            <div class="suggestion">
+
+                💡 <strong>Suggestion:</strong>
+
+                {{ suggestion }}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- ================= TIP ================= -->
+
+    <section class="farming-tip">
+
+        <div class="tip-icon">
+            💡
+        </div>
+
+        <div>
+
+            <h3>
+                Smart Farming Tip
+            </h3>
+
+            <p>
+                For better results, upload a clear,
+                well-lit image where the plant leaf
+                is clearly visible.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

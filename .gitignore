@@ -1,0 +1,6 @@
+plant_dataset/
+.venv/
+__pycache__/
+*.pyc
+.env
+agrisense.db

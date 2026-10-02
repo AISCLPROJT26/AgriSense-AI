@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI Logo"
+            class="app-logo">
+
+        <div>
+            <h2>
+                AgriSense <span>AI</span>
+            </h2>
+
+            <p>
+                Smart Farming Assistant
+            </p>
+        </div>
+
+    </div>
+
+    <a href="{{ url_for('dashboard') }}"
+       class="nav-button">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="weather-page">
+
+
+    <!-- HEADER -->
+
+    <section class="weather-header">
+
+        <div class="tag">
+            🌦️ WEATHER FORECAST
+        </div>
+
+        <h1>
+            Check your local weather
+        </h1>
+
+        <p>
+            Get current weather conditions for your
+            farming area and plan your activities better.
+        </p>
+
+    </section>
+
+
+    <!-- WEATHER CARD -->
+
+    <section class="weather-container">
+
+
+        <!-- SEARCH -->
+
+        <form method="POST"
+              class="weather-search">
+
+            <input
+                type="text"
+                name="city"
+                placeholder="Enter city name"
+                value="{{ city or '' }}"
+                required>
+
+            <button type="submit">
+                🔍 Check Weather
+            </button>
+
+        </form>
+
+
+        <!-- ERROR -->
+
+        {% if error %}
+
+        <div class="weather-error">
+            ⚠️ {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- RESULT -->
+
+        {% if weather %}
+
+        <div class="weather-result">
+
+
+            <!-- MAIN WEATHER -->
+
+            <div class="weather-main">
+
+                <div class="weather-icon">
+                    🌤️
+                </div>
+
+                <div class="weather-main-info">
+
+                    <span class="weather-label">
+                        CURRENT WEATHER
+                    </span>
+
+                    <h2>
+                        {{ weather.city }}, {{ weather.country }}
+                    </h2>
+
+                    <div class="temperature">
+                        {{ weather.temperature }}°C
+                    </div>
+
+                    <p>
+                        {{ weather.description }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="weather-details">
+
+
+                <div class="weather-detail">
+
+                    <span>🌡️</span>
+
+                    <strong>
+                        {{ weather.feels_like }}°C
+                    </strong>
+
+                    <small>
+                        Feels Like
+                    </small>
+
+                </div>
+
+
+                <div class="weather-detail">
+
+                    <span>💧</span>
+
+                    <strong>
+                        {{ weather.humidity }}%
+                    </strong>
+
+                    <small>
+                        Humidity
+                    </small>
+
+                </div>
+
+
+                <div class="weather-detail">
+
+                    <span>💨</span>
+
+                    <strong>
+                        {{ weather.wind }} km/h
+                    </strong>
+
+                    <small>
+                        Wind Speed
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- FARMING TIP -->
+
+            <div class="weather-tip">
+
+                <div class="weather-tip-icon">
+                    🌾
+                </div>
+
+                <div>
+
+                    <h3>
+                        Farming Insight
+                    </h3>
+
+                    <p>
+                        Keep an eye on temperature, humidity
+                        and wind conditions when planning
+                        field activities.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        {% else %}
+
+
+        <!-- EMPTY STATE -->
+
+        <div class="weather-empty">
+
+            <div class="weather-empty-icon">
+                🌤️
+            </div>
+
+            <h2>
+                Weather information will appear here
+            </h2>
+
+            <p>
+                Enter your city above to see the current
+                weather conditions for your area.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

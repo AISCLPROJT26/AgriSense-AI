@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AgriSense AI | Smart Farming Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="logo">
+
+    <img
+        src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+        alt="AgriSense AI Logo"
+        class="app-logo">
+
+</div>
+                <h2>AgriSense <span>AI</span></h2>
+                <p>Smart Farming Assistant</p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('guest') }}" class="nav-button">
+            Get Started
+        </a>
+
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="tag">
+                🌾 AI POWERED SMART FARMING
+            </div>
+
+            <h1>
+                Grow Smarter.<br>
+                <span>Farm Better.</span>
+            </h1>
+
+            <p>
+                AgriSense AI helps farmers make smarter decisions using
+                artificial intelligence, crop recommendations, plant
+                disease detection and weather information.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('guest') }}"
+                   class="primary-button">
+                    Start as Guest →
+                </a>
+
+                <a href="#features"
+                   class="secondary-button">
+                    Explore Features
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Farming Illustration -->
+        <div class="farm-scene">
+
+            <div class="sun">☀️</div>
+
+            <div class="mountain mountain-one"></div>
+            <div class="mountain mountain-two"></div>
+
+            <div class="field field-back"></div>
+            <div class="field field-front"></div>
+
+            <div class="tractor">🚜</div>
+
+            <div class="floating-leaf leaf-one">🍃</div>
+            <div class="floating-leaf leaf-two">🌿</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features -->
+    <section id="features" class="features">
+
+        <div class="section-heading">
+
+            <div class="tag">
+                🌱 WHAT AGRISENSE CAN DO
+            </div>
+
+            <h2>
+                Smart tools for <span>better farming</span>
+            </h2>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">🌾</div>
+
+                <h3>Crop Recommendation</h3>
+
+                <p>
+                    Get suitable crop suggestions based on
+                    soil and environmental conditions.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">🦠</div>
+
+                <h3>Disease Detection</h3>
+
+                <p>
+                    Upload a plant image and use AI to
+                    identify possible plant diseases.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">🌦️</div>
+
+                <h3>Weather Forecast</h3>
+
+                <p>
+                    Check weather conditions to plan
+                    farming activities more effectively.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+
+                <h3>Farming History</h3>
+
+                <p>
+                    Keep track of previous crop
+                    recommendations and AI results.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+        <p>© 2026 AgriSense AI • Smart Farming Assistant</p>
+    </footer>
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

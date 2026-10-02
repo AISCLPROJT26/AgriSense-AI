@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+     ========================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI Logo"
+            class="app-logo">
+
+        <div>
+            <h2>AgriSense <span>AI</span></h2>
+            <p>Smart Farming Assistant</p>
+        </div>
+
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="nav-button">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- =========================
+     ABOUT PAGE
+     ========================= -->
+
+<main class="about-page">
+
+    <!-- Header -->
+
+    <section class="about-hero">
+
+        <div class="tag">
+            🌱 ABOUT AGRISENSE AI
+        </div>
+
+        <h1>
+            Smart Farming,<br>
+            <span>Powered by AI.</span>
+        </h1>
+
+        <p>
+            AgriSense AI is a smart farming assistant designed to
+            help farmers make better decisions using artificial
+            intelligence, environmental data and modern technology.
+        </p>
+
+    </section>
+
+
+    <!-- What is AgriSense -->
+
+    <section class="about-section">
+
+        <div class="about-icon">
+            🌾
+        </div>
+
+        <div>
+
+            <h2>
+                What is AgriSense AI?
+            </h2>
+
+            <p>
+                AgriSense AI is a web-based smart farming application
+                that provides useful agricultural assistance through
+                simple and easy-to-use tools.
+            </p>
+
+            <p>
+                The system can recommend suitable crops based on
+                soil and environmental conditions, analyze plant
+                images for possible diseases, provide current
+                weather information and maintain a history of
+                farming activities.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features -->
+
+    <section class="about-features">
+
+        <div class="about-heading">
+
+            <div class="tag">
+                🤖 KEY FEATURES
+            </div>
+
+            <h2>
+                What can AgriSense AI do?
+            </h2>
+
+        </div>
+
+
+        <div class="about-feature-grid">
+
+            <div class="about-feature-card">
+
+                <div class="about-feature-icon">
+                    🌾
+                </div>
+
+                <h3>
+                    Crop Recommendation
+                </h3>
+
+                <p>
+                    Suggests a suitable crop using soil nutrients
+                    and environmental conditions.
+                </p>
+
+            </div>
+
+
+            <div class="about-feature-card">
+
+                <div class="about-feature-icon">
+                    🌿
+                </div>
+
+                <h3>
+                    Disease Detection
+                </h3>
+
+                <p>
+                    Uses a trained machine learning model to analyze
+                    plant images and identify possible diseases.
+                </p>
+
+            </div>
+
+
+            <div class="about-feature-card">
+
+                <div class="about-feature-icon">
+                    🌦️
+                </div>
+
+                <h3>
+                    Weather Information
+                </h3>
+
+                <p>
+                    Provides weather conditions such as temperature,
+                    humidity, wind speed and weather description.
+                </p>
+
+            </div>
+
+
+            <div class="about-feature-card">
+
+                <div class="about-feature-icon">
+                    📋
+                </div>
+
+                <h3>
+                    Activity History
+                </h3>
+
+                <p>
+                    Stores previous farming activities and results
+                    so they can be viewed later.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Technology -->
+
+    <section class="technology-section">
+
+        <div class="about-icon">
+            ⚙️
+        </div>
+
+        <div>
+
+            <h2>
+                Technology Behind the Project
+            </h2>
+
+            <p>
+                AgriSense AI is developed as a Python-based web
+                application using Flask. Machine learning techniques
+                are used for crop recommendation and plant disease
+                detection.
+            </p>
+
+
+            <div class="technology-tags">
+
+                <span>🐍 Python</span>
+                <span>🌐 Flask</span>
+                <span>🤖 Machine Learning</span>
+                <span>🗄️ SQLite</span>
+                <span>🌦️ Weather API</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Project Purpose -->
+
+    <section class="purpose-section">
+
+        <div>
+
+            <div class="tag">
+                🎯 PROJECT PURPOSE
+            </div>
+
+            <h2>
+                Making farming decisions simpler.
+            </h2>
+
+            <p>
+                The main purpose of AgriSense AI is to demonstrate
+                how artificial intelligence and digital technology
+                can be applied to agriculture.
+            </p>
+
+            <p>
+                The project focuses on creating a simple interface
+                where useful farming information can be accessed
+                from a single platform.
+            </p>
+
+        </div>
+
+        <div class="purpose-emoji">
+            🌱
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer class="about-footer">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI Logo">
+
+        <div>
+
+            <h3>
+                AgriSense AI
+            </h3>
+
+            <p>
+                Smart Farming Assistant
+            </p>
+
+        </div>
+
+        <span>
+            Class 12 AI Project
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

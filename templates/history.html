@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>History | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <img
+                src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+                alt="AgriSense AI Logo"
+                class="app-logo"
+            >
+
+            <div class="logo-text">
+                <h2>AgriSense <span>AI</span></h2>
+                <p>Smart Farming Assistant</p>
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="nav-button">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <!-- HISTORY PAGE -->
+    <main class="history-page">
+
+        <!-- HEADER -->
+        <section class="history-header">
+
+            <div class="tag">
+                📋 ACTIVITY HISTORY
+            </div>
+
+            <h1>
+                Your Farming History
+            </h1>
+
+            <p>
+                View your previous AgriSense AI activities.
+            </p>
+
+        </section>
+
+
+        <!-- HISTORY RECORDS -->
+        {% if records %}
+
+            <section class="history-list">
+
+                {% for record in records %}
+
+                    <div class="history-card">
+
+                        <div class="history-icon">
+
+                            {% if record["activity"] == "Disease Detection" %}
+                                🌿
+                            {% elif record["activity"] == "Crop Recommendation" %}
+                                🌾
+                            {% else %}
+                                📋
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="history-info">
+
+                            <h3>
+                                {{ record["activity"] }}
+                            </h3>
+
+                            <p>
+                                {{ record["result"] }}
+                            </p>
+
+                            <small>
+                                🕒 {{ record["created_at"] }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+
+        {% else %}
+
+            <!-- EMPTY HISTORY -->
+            <section class="empty-history">
+
+                <div class="empty-history-icon">
+                    📋
+                </div>
+
+                <h2>
+                    No history yet
+                </h2>
+
+                <p>
+                    Your crop recommendations and disease
+                    detection results will appear here.
+                </p>
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="nav-button">
+                    ← Back to Dashboard
+                </a>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

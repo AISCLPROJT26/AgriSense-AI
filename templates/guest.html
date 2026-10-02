@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Welcome | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+       <div class="logo">
+
+    <img
+        src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+        alt="AgriSense AI Logo"
+        class="app-logo">
+
+</div>
+
+            <div>
+                <h2>AgriSense <span>AI</span></h2>
+                <p>Smart Farming Assistant</p>
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <main class="guest-page">
+
+        <div class="guest-card">
+
+            <div class="guest-icon">
+                🌾
+            </div>
+
+            <div class="tag">
+                WELCOME FARMER
+            </div>
+
+            <h1>
+                Let's get started
+            </h1>
+
+            <p>
+                Tell us your name to create your simple
+                guest profile.
+            </p>
+
+            <form method="POST">
+
+                <label for="name">
+                    Your Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    maxlength="40"
+                    required
+                    autocomplete="off"
+                >
+
+                <button
+                    type="submit"
+                    class="primary-button guest-button">
+
+                    Enter AgriSense AI →
+                    
+                </button>
+
+            </form>
+
+            <small>
+                🔒 No password or email required
+            </small>
+
+        </div>
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

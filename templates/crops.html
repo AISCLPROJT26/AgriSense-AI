@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Recommendation | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="main-navbar">
+
+    <!-- LOGO -->
+    <div class="brand">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI"
+            class="brand-logo">
+
+        <div class="brand-text">
+            <h2>AgriSense <span>AI</span></h2>
+            <p>Smart Farming Assistant</p>
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('crops') }}" class="active">
+            🌱 Crop Recommendation
+        </a>
+
+        <a href="{{ url_for('disease') }}">
+            🛡️ Disease Detection
+        </a>
+
+        <a href="{{ url_for('weather') }}">
+            ☁️ Weather Forecast
+        </a>
+
+        <a href="{{ url_for('history') }}">
+            📋 Farming History
+        </a>
+
+        <a href="{{ url_for('about') }}">
+            ⓘ About
+        </a>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+
+    <a href="{{ url_for('dashboard') }}" class="nav-button">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="crop-page-new">
+
+
+    <!-- HEADER -->
+
+    <section class="crop-hero">
+
+        <div>
+
+            <div class="hero-tag">
+                🌾 AI CROP ANALYSIS
+            </div>
+
+            <h1>
+                Find the right crop<br>
+                <span>for your farm.</span>
+            </h1>
+
+            <p>
+                Enter your soil and environmental conditions.
+                AgriSense AI will analyze the data and recommend
+                a suitable crop for your farm.
+            </p>
+
+        </div>
+
+
+        <div class="crop-hero-icon">
+            🌾
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <section class="crop-workspace">
+
+
+        <!-- INPUT CARD -->
+
+        <div class="crop-input-card">
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    🧪
+                </div>
+
+                <div>
+                    <h2>Farm Conditions</h2>
+
+                    <p>
+                        Enter the current conditions of your farm.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form method="POST">
+
+
+                <div class="crop-input-grid">
+
+
+                    <!-- N -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Nitrogen
+                            <span>N</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="N"
+                                step="any"
+                                placeholder="90"
+                                required>
+
+                            <span>mg/kg</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- P -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Phosphorus
+                            <span>P</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="P"
+                                step="any"
+                                placeholder="42"
+                                required>
+
+                            <span>mg/kg</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- K -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Potassium
+                            <span>K</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="K"
+                                step="any"
+                                placeholder="43"
+                                required>
+
+                            <span>mg/kg</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TEMPERATURE -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Temperature
+                            <span>🌡️</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="temperature"
+                                step="any"
+                                placeholder="25"
+                                required>
+
+                            <span>°C</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HUMIDITY -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Humidity
+                            <span>💧</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="humidity"
+                                step="any"
+                                placeholder="70"
+                                required>
+
+                            <span>%</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PH -->
+
+                    <div class="farm-input">
+
+                        <label>
+                            Soil pH
+                            <span>⚗️</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="ph"
+                                step="any"
+                                placeholder="6.5"
+                                required>
+
+                            <span>pH</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RAINFALL -->
+
+                    <div class="farm-input full-input">
+
+                        <label>
+                            Rainfall
+                            <span>🌧️</span>
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                name="rainfall"
+                                step="any"
+                                placeholder="200"
+                                required>
+
+                            <span>mm</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                {% if error %}
+
+                <div class="form-error">
+                    ⚠️ {{ error }}
+                </div>
+
+                {% endif %}
+
+
+                <!-- BUTTON -->
+
+                <button type="submit"
+                        class="crop-analyze-btn">
+
+                    <span>🌱</span>
+
+                    Analyze My Farm
+
+                    <strong>→</strong>
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= RESULT ================= -->
+
+        <div class="crop-result-panel">
+
+
+            {% if result %}
+
+            <div class="recommendation-result">
+
+                <div class="result-top">
+
+                    <div class="success-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <span class="result-label">
+                            AI RECOMMENDATION
+                        </span>
+
+                        <p>
+                            Analysis complete
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="recommended-crop">
+
+                    <span>
+                        Recommended Crop
+                    </span>
+
+                    <h2>
+                        🌾 {{ result|capitalize }}
+                    </h2>
+
+                </div>
+
+
+                <div class="result-message">
+
+                    <div>
+                        💡
+                    </div>
+
+                    <p>
+                        Based on the soil nutrients and
+                        environmental conditions you provided,
+                        <strong>{{ result|capitalize }}</strong>
+                        is the most suitable crop according
+                        to the AgriSense AI model.
+                    </p>
+
+                </div>
+
+
+                <div class="result-footer">
+
+                    <span>
+                        ✓ Result saved to history
+                    </span>
+
+                    <a href="{{ url_for('history') }}">
+                        View History →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- EMPTY RESULT -->
+
+            <div class="empty-recommendation">
+
+                <div class="empty-icon">
+                    🌱
+                </div>
+
+                <h2>
+                    Your recommendation
+                    will appear here
+                </h2>
+
+                <p>
+                    Enter your farm conditions on the left
+                    and let AgriSense AI find a suitable crop
+                    for you.
+                </p>
+
+                <div class="empty-points">
+
+                    <span>✓ Soil analysis</span>
+
+                    <span>✓ Climate analysis</span>
+
+                    <span>✓ AI prediction</span>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FARMING TIP ================= -->
+
+    <section class="crop-tip">
+
+        <div class="crop-tip-icon">
+            💡
+        </div>
+
+        <div>
+
+            <h3>
+                Smart Farming Tip
+            </h3>
+
+            <p>
+                Keep your soil nutrients balanced and
+                regularly monitor pH and moisture levels
+                for healthier crop growth.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
