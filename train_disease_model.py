@@ -1,20 +1,23 @@
-import os
+﻿import os
 import pickle
+
 import numpy as np
 
 from PIL import Image
-
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from skimage.feature import hog
 
 
 # =========================================================
 # SETTINGS
 # =========================================================
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)
 
 DATASET_DIR = os.path.join(
     BASE_DIR,
@@ -32,7 +35,6 @@ MODEL_FILE = os.path.join(
 )
 
 MAX_IMAGES_PER_CLASS = 150
-
 IMAGE_SIZE = (32, 32)
 
 
@@ -40,74 +42,62 @@ IMAGE_SIZE = (32, 32)
 # FEATURE EXTRACTION
 # =========================================================
 
-def extract_features(image_path):
+def extract_features(image):
 
-    try:
+    image = image.convert("RGB")
+    image = image.resize(IMAGE_SIZE)
 
-        image = Image.open(
-            image_path
-        ).convert("RGB")
+    image_array = np.asarray(
+        image,
+        dtype=np.float32
+    ) / 255.0
 
-        image = image.resize(
-            IMAGE_SIZE
+    gray = np.mean(
+        image_array,
+        axis=2
+    )
+
+    hog_features = hog(
+        gray,
+        orientations=9,
+        pixels_per_cell=(4, 4),
+        cells_per_block=(3, 3),
+        block_norm="L2-Hys"
+    )
+
+    color_features = []
+
+    for channel in range(3):
+
+        channel_data = image_array[:, :, channel]
+
+        color_features.extend([
+            np.mean(channel_data),
+            np.std(channel_data),
+            np.min(channel_data),
+            np.max(channel_data)
+        ])
+
+    histogram_features = []
+
+    for channel in range(3):
+
+        histogram, _ = np.histogram(
+            image_array[:, :, channel],
+            bins=64,
+            range=(0, 1),
+            density=True
         )
 
-        pixels = np.asarray(
-            image,
-            dtype=np.float32
-        ) / 255.0
+        histogram_features.extend(histogram)
 
-        # -------------------------------------------------
-        # Pixel features
-        # -------------------------------------------------
+    features = np.concatenate([
+        hog_features,
+        np.asarray(color_features, dtype=np.float32),
+        np.asarray(histogram_features, dtype=np.float32)
+    ])
 
-        pixel_features = pixels.flatten()
-
-
-        # -------------------------------------------------
-        # Color histogram features
-        # -------------------------------------------------
-
-        histogram_features = []
-
-        for channel in range(3):
-
-            histogram, _ = np.histogram(
-                pixels[:, :, channel],
-                bins=16,
-                range=(0, 1),
-                density=True
-            )
-
-            histogram_features.extend(
-                histogram
-            )
-
-
-        # -------------------------------------------------
-        # Combine everything
-        # -------------------------------------------------
-
-        features = np.concatenate(
-            [
-                pixel_features,
-                np.array(
-                    histogram_features,
-                    dtype=np.float32
-                )
-            ]
-        )
-
-        return features
-
-
-    except Exception as e:
-
-        print(
-            f"Could not read {image_path}: {e}"
-        )
-
-        return None
+    return features.astype(np.float32)
 
 
 # =========================================================
@@ -115,29 +105,16 @@ def extract_features(image_path):
 # =========================================================
 
 print()
-print("===================================")
-print(" AgriSense AI Disease Model")
-print("===================================")
+print("=" * 60)
+print(" AgriSense AI Disease Detection Trainer")
+print("=" * 60)
 print()
-
-
-# =========================================================
-# CHECK DATASET
-# =========================================================
 
 if not os.path.exists(DATASET_DIR):
 
-    print(
-        f"ERROR: Dataset folder not found:"
+    raise FileNotFoundError(
+        f"Dataset folder not found:\n{DATASET_DIR}"
     )
-
-    print(
-        DATASET_DIR
-    )
-
-    input("\nPress Enter to exit...")
-    exit()
-
 
 os.makedirs(
     MODEL_DIR,
@@ -151,16 +128,12 @@ os.makedirs(
 
 X = []
 y = []
-
 class_counts = {}
 
+print("Loading disease images...")
+print()
 
-print("Loading images...\n")
-
-
-for class_name in sorted(
-    os.listdir(DATASET_DIR)
-):
+for class_name in sorted(os.listdir(DATASET_DIR)):
 
     class_path = os.path.join(
         DATASET_DIR,
@@ -170,93 +143,52 @@ for class_name in sorted(
     if not os.path.isdir(class_path):
         continue
 
-
-    print(
-        f"Loading: {class_name}"
-    )
-
+    print(f"Loading: {class_name}")
 
     image_count = 0
 
-
-    for filename in os.listdir(
-        class_path
-    ):
+    for filename in sorted(os.listdir(class_path)):
 
         if image_count >= MAX_IMAGES_PER_CLASS:
             break
 
-
         if not filename.lower().endswith(
-            (
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".bmp",
-                ".webp"
-            )
+            (".jpg", ".jpeg", ".png", ".bmp", ".webp")
         ):
             continue
 
+        image_path = os.path.join(class_path, filename)
 
-        image_path = os.path.join(
-            class_path,
-            filename
-        )
+        try:
 
+            with Image.open(image_path) as image:
+                features = extract_features(image)
 
-        features = extract_features(
-            image_path
-        )
+        except Exception as exc:
 
+            print(f"Skipped {filename}: {exc}")
+            continue
 
-        if features is not None:
-
-            X.append(features)
-            y.append(class_name)
-
-            image_count += 1
-
+        X.append(features)
+        y.append(class_name)
+        image_count += 1
 
     class_counts[class_name] = image_count
-
-
-    print(
-        f"  Images used: {image_count}"
-    )
-
-
-# =========================================================
-# DATASET SUMMARY
-# =========================================================
+    print(f"  Images used: {image_count}")
 
 if len(X) == 0:
-
-    print(
-        "\nERROR: No images were found."
-    )
-
-    input("\nPress Enter to exit...")
-    exit()
-
+    raise ValueError("No images were found in the dataset folder.")
 
 print()
-print("===================================")
-print(" Dataset Summary")
-print("===================================")
+print("=" * 60)
+print(" DATASET SUMMARY")
+print("=" * 60)
 print()
-
 
 for class_name, count in class_counts.items():
+    print(f"{class_name}: {count}")
 
-    print(
-        f"{class_name}: {count}"
-    )
-
-
-print(
-    f"\nTotal images: {len(X)}"
-)
+print(f"\nTotal images: {len(X)}")
 
 
 # =========================================================
@@ -268,25 +200,15 @@ X = np.asarray(
     dtype=np.float32
 )
 
-
 label_encoder = LabelEncoder()
+y_encoded = label_encoder.fit_transform(y)
 
+print(f"\nNumber of classes: {len(label_encoder.classes_)}")
+print("\nClasses:")
+for index, class_name in enumerate(label_encoder.classes_):
+    print(f"  {index}: {class_name}")
 
-y_encoded = label_encoder.fit_transform(
-    y
-)
-
-
-print(
-    f"\nNumber of classes: "
-    f"{len(label_encoder.classes_)}"
-)
-
-
-print(
-    f"Features per image: "
-    f"{X.shape[1]}"
-)
+print(f"\nFeatures per image: {X.shape[1]}")
 
 
 # =========================================================
@@ -294,145 +216,70 @@ print(
 # =========================================================
 
 X_train, X_test, y_train, y_test = train_test_split(
-
     X,
-
     y_encoded,
-
     test_size=0.20,
-
     random_state=42,
-
     stratify=y_encoded
 )
 
-
 print()
-print("Training model...")
-
-print(
-    f"Training images: {len(X_train)}"
-)
-
-print(
-    f"Testing images: {len(X_test)}"
-)
+print("=" * 60)
+print(" TRAINING MODEL")
+print("=" * 60)
+print(f"\nTraining images: {len(X_train)}")
+print(f"Testing images: {len(X_test)}")
 
 
 # =========================================================
-# TRAIN LOGISTIC REGRESSION
+# LOGISTIC REGRESSION
 # =========================================================
 
 model = LogisticRegression(
-
     max_iter=1500,
-
-    solver="lbfgs"
+    solver="lbfgs",
+    random_state=42
 )
 
+print("\nTraining Logistic Regression...")
+model.fit(X_train, y_train)
 
-model.fit(
-    X_train,
-    y_train
-)
-
-
-# =========================================================
-# TEST MODEL
-# =========================================================
-
-predictions = model.predict(
-    X_test
-)
-
-
-accuracy = accuracy_score(
-    y_test,
-    predictions
-)
-
+predictions = model.predict(X_test)
+accuracy = accuracy_score(y_test, predictions)
 
 print()
-print("===================================")
+print("=" * 60)
 print(" MODEL RESULTS")
-print("===================================")
-
-print(
-    f"\nAccuracy: "
-    f"{accuracy * 100:.2f}%"
-)
-
-
-print(
-    "\nClassification Report:\n"
-)
-
-
-print(
-    classification_report(
-
-        y_test,
-
-        predictions,
-
-        target_names=label_encoder.classes_,
-
-        zero_division=0
-    )
-)
+print("=" * 60)
+print(f"\nAccuracy: {accuracy * 100:.2f}%")
+print("\nClassification Report:\n")
+print(classification_report(
+    y_test,
+    predictions,
+    target_names=label_encoder.classes_,
+    zero_division=0
+))
 
 
 # =========================================================
-# SAVE MODEL PACKAGE
+# SAVE MODEL
 # =========================================================
 
 model_data = {
-
     "model": model,
-
     "label_encoder": label_encoder,
-
     "image_size": IMAGE_SIZE,
-
-    "feature_type": "pixels_plus_color_histogram",
-
+    "feature_type": "HOG_plus_color_statistics_plus_histogram",
     "feature_count": X.shape[1]
 }
 
-
-with open(
-    MODEL_FILE,
-    "wb"
-) as file:
-
-    pickle.dump(
-        model_data,
-        file
-    )
-
-
-# =========================================================
-# FINISHED
-# =========================================================
+with open(MODEL_FILE, "wb") as file:
+    pickle.dump(model_data, file)
 
 print()
-print("===================================")
-print(" MODEL SAVED")
-print("===================================")
-
-print(
-    f"\nSaved to:"
-)
-
-print(
-    MODEL_FILE
-)
-
+print("=" * 60)
+print(" MODEL SAVED SUCCESSFULLY")
+print("=" * 60)
+print(f"\nSaved to:\n{MODEL_FILE}")
 print()
-print(
-    "AgriSense AI disease model is ready! 🌱🤖"
-)
-
-input(
-    "\nPress Enter to exit..."
-)
+print("AgriSense AI disease model is ready! 🌱🤖")

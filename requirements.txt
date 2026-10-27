@@ -1,8 +1,10 @@
 Flask
 requests
 python-dotenv
+numpy
 pandas
 scikit-learn
+scikit-image
 joblib
 Pillow
 gunicorn

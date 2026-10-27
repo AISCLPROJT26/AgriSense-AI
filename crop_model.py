@@ -1,9 +1,12 @@
+import os
+
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 
 # Load crop dataset
-DATA_PATH = "data/crop_data.csv"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "data", "crop_data.csv")
 
 data = pd.read_csv(DATA_PATH)
 

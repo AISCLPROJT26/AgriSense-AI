@@ -1,6 +1,8 @@
+import os
 import sqlite3
 
-DATABASE = "agrisense.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "agrisense.db")
 
 
 def get_db():
@@ -29,15 +31,17 @@ def init_db():
 def save_history(guest_name, activity, result):
     connection = get_db()
 
-    connection.execute("""
-        INSERT INTO history
-        (guest_name, activity, result)
-        VALUES (?, ?, ?)
-    """, (
-        guest_name,
-        activity,
-        result
-    ))
+    try:
+        connection.execute("""
+            INSERT INTO history
+            (guest_name, activity, result)
+            VALUES (?, ?, ?)
+        """, (
+            guest_name,
+            activity,
+            result
+        ))
 
-    connection.commit()
-    connection.close()
+        connection.commit()
+    finally:
+        connection.close()
