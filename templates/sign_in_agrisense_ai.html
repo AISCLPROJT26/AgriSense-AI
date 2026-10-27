@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | AgriSense AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Identity Services Library for 'Sign in with Google' & One Tap -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        .auth-page {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            max-width: 440px;
+            width: 100%;
+            border-radius: 18px;
+            padding: 32px 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid #e0f2f1;
+        }
+
+        .auth-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .auth-card h1 {
+            margin: 0 0 8px 0;
+            color: #1b5e20;
+            font-size: 1.7rem;
+        }
+
+        .auth-card p.subtitle {
+            margin: 0 0 24px 0;
+            color: #546e7a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .google-btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .custom-google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 18px;
+            background: #ffffff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            border-radius: 10px;
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .custom-google-btn:hover {
+            background: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .google-icon-svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #90a4ae;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            padding: 0 12px;
+        }
+
+        .auth-input-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .auth-input-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 6px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #c8e6c9;
+            border-radius: 10px;
+            font-size: 0.96rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .auth-input:focus {
+            border-color: #2e7d32;
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            padding: 13px 18px;
+            background: #2e7d32;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .auth-submit-btn:hover {
+            background: #1b5e20;
+        }
+
+        /* Quick Google Modal when GOOGLE_CLIENT_ID is not yet configured */
+        .google-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .google-modal {
+            background: #ffffff;
+            max-width: 380px;
+            width: 100%;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .google-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .google-modal-header h3 {
+            margin: 0;
+            font-size: 1.15rem;
+            color: #202124;
+        }
+
+        .google-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-cancel {
+            padding: 9px 14px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-google-continue {
+            padding: 9px 16px;
+            border: none;
+            background: #1a73e8;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='images/agrisense-logo.png') }}"
+            alt="AgriSense AI Logo"
+            class="app-logo">
+
+        <div>
+            <h2>
+                AgriSense <span>AI</span>
+            </h2>
+
+            <p>
+                Smart Farming Assistant
+            </p>
+        </div>
+
+    </div>
+
+    <a href="{{ url_for('home') }}"
+       class="nav-button">
+        ← Home
+    </a>
+
+</nav>
+
+
+<!-- ================= SIGN-IN CARD ================= -->
+
+<main class="auth-page">
+
+    <section class="auth-card">
+
+        <div class="auth-badge">
+            🌱 WELCOME TO AGRISENSE AI
+        </div>
+
+        <h1>
+            Sign In to Continue
+        </h1>
+
+        <p class="subtitle">
+            Sign in with your Google Account or continue as a guest to track your plant health &amp; crop history.
+            <br>
+            <small>अपनी Google ID से साइन इन करें या अतिथि (Guest) के रूप में आगे बढ़ें।</small>
+        </p>
+
+        {% if error %}
+        <div class="error-box" style="margin-bottom: 16px;">
+            ⚠️ {{ error }}
+        </div>
+        {% endif %}
+
+
+        <!-- ================= GOOGLE SIGN-IN SECTION ================= -->
+
+        <div class="google-btn-container">
+
+            {% if google_client_id %}
+                <!-- Official Google One-Tap & Sign In Button when GOOGLE_CLIENT_ID is set in .env -->
+                <div id="g_id_onload"
+                     data-client_id="{{ google_client_id }}"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-login_uri="{{ url_for('auth_google_token', _external=True) }}"
+                     data-auto_prompt="true">
+                </div>
+
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="rectangular"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="large"
+                     data-logo_alignment="left"
+                     data-width="360">
+                </div>
+            {% else %}
+                <!-- Instant Google Sign-In Button (works out-of-the-box for local demo or OAuth redirect) -->
+                <button type="button"
+                        class="custom-google-btn"
+                        onclick="openGoogleModal()">
+                    <svg class="google-icon-svg" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    <span>Sign in with Google / Google से साइन इन करें</span>
+                </button>
+            {% endif %}
+
+        </div>
+
+
+        <div class="divider">
+            <span>OR CONTINUE AS GUEST</span>
+        </div>
+
+
+        <!-- ================= GUEST FORM ================= -->
+
+        <form method="POST" action="{{ url_for('guest') }}">
+
+            <div class="auth-input-group">
+                <label for="guest-name-input">
+                    👤 Your Name / आपका नाम
+                </label>
+                <input
+                    id="guest-name-input"
+                    class="auth-input"
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name (e.g., Rahul Sharma)"
+                    required>
+            </div>
+
+            <button type="submit" class="auth-submit-btn">
+                🚀 Continue to Dashboard →
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- ================= GOOGLE QUICK SIGN-IN MODAL (LOCAL / DEMO MODE) ================= -->
+
+<div class="google-modal-backdrop" id="google-modal-backdrop">
+    <div class="google-modal">
+        <div class="google-modal-header">
+            <svg class="google-icon-svg" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <h3>Sign in with Google</h3>
+        </div>
+
+        <p style="margin: 0 0 14px 0; font-size: 0.9rem; color: #5f6368;">
+            Enter your Google account details to sign in to <strong>AgriSense AI</strong>:
+        </p>
+
+        <form method="POST" action="{{ url_for('auth_google_token') }}">
+            <div class="auth-input-group">
+                <label for="google-name">Your Name</label>
+                <input id="google-name"
+                       class="auth-input"
+                       type="text"
+                       name="google_name"
+                       placeholder="Your Full Name"
+                       required>
+            </div>
+
+            <div class="auth-input-group">
+                <label for="google-email">Gmail Address</label>
+                <input id="google-email"
+                       class="auth-input"
+                       type="email"
+                       name="google_email"
+                       placeholder="youremail@gmail.com"
+                       required>
+            </div>
+
+            <div class="google-modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeGoogleModal()">
+                    Cancel
+                </button>
+                <button type="submit" class="btn-google-continue">
+                    Continue with Google
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openGoogleModal() {
+        document.getElementById("google-modal-backdrop").style.display = "flex";
+    }
+
+    function closeGoogleModal() {
+        document.getElementById("google-modal-backdrop").style.display = "none";
+    }
+</script>
+
+</body>
+
+</html>

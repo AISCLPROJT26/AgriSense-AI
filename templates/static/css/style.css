@@ -1483,3 +1483,149 @@ footer {
         align-items: flex-start;
     }
 }
+
+/* =========================================================
+   DESERT WESTERN THEME — AgriSense AI
+   Warm sandstone, terracotta, prairie gold and ranch green.
+   No neon/glow effects. Existing layout and Flask routes stay intact.
+========================================================= */
+:root {
+  --dw-ranch: #293d2b;
+  --dw-ranch-deep: #1d2e21;
+  --dw-sage: #647653;
+  --dw-olive: #82905d;
+  --dw-terracotta: #a85f43;
+  --dw-rust: #713f32;
+  --dw-gold: #d5b77a;
+  --dw-sand: #e9dfc8;
+  --dw-cream: #f7f2e8;
+  --dw-ink: #302c24;
+  --dw-muted: #716a5c;
+  --dw-border: #d3c5a8;
+  --dw-shadow: 0 12px 30px rgba(56, 42, 26, .12);
+}
+
+body {
+  color: var(--dw-ink);
+  background: linear-gradient(180deg, var(--dw-cream), #efe4ce 58%, #e3d1b1);
+}
+
+.navbar, .main-navbar {
+  background: rgba(41, 61, 43, .97) !important;
+  color: var(--dw-cream) !important;
+  border-bottom: 1px solid rgba(213,183,122,.45) !important;
+  box-shadow: 0 4px 18px rgba(34, 29, 20, .13);
+}
+.navbar a, .main-navbar a, .brand-text, .brand-text p { color: var(--dw-cream); }
+.logo h2, .brand-text h2 { color: var(--dw-cream); }
+.logo h2 span, .brand-text h2 span { color: var(--dw-gold); }
+.logo-icon, .feature-icon, .guest-icon, .tip-icon, .result-icon, .upload-icon {
+  background: #e3d4af !important;
+  color: var(--dw-ranch) !important;
+  box-shadow: none !important;
+  border: 1px solid #c6ad76;
+}
+
+.nav-button, .primary-button, .guest-button, .analyze-button {
+  background: var(--dw-terracotta) !important;
+  color: #fff8ed !important;
+  border: 1px solid #8e4c35 !important;
+  box-shadow: 0 4px 0 rgba(76, 43, 30, .12) !important;
+  transition: background .2s ease, transform .2s ease;
+}
+.nav-button:hover, .primary-button:hover, .guest-button:hover, .analyze-button:hover {
+  background: var(--dw-rust) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 rgba(76, 43, 30, .12) !important;
+}
+.secondary-button, .card-link, .change-guest {
+  color: var(--dw-ranch) !important;
+  border-color: var(--dw-sage) !important;
+}
+.secondary-button:hover { background: #e6dcc6 !important; }
+
+.hero, .dashboard-hero, .dashboard-welcome {
+  background: linear-gradient(115deg, #293d2b 0%, #3d5638 55%, #8b8b5b 100%) !important;
+  color: var(--dw-cream) !important;
+  border-color: rgba(213,183,122,.65) !important;
+  box-shadow: var(--dw-shadow);
+}
+.hero h1, .dashboard-hero h1, .dashboard-welcome h1,
+.hero p, .dashboard-hero p, .dashboard-welcome p { color: var(--dw-cream) !important; }
+.hero h1 span, .hero-content h1 span { color: var(--dw-gold) !important; }
+.tag, .hero-tag {
+  background: #e6d8b8 !important;
+  color: var(--dw-ranch) !important;
+  border: 1px solid #c9b17b !important;
+  box-shadow: none !important;
+}
+.farm-scene { background: linear-gradient(180deg, #c6b17b, #71835b 62%, #3b5738) !important; }
+.sun { filter: none !important; }
+
+.features, .dashboard-main, .guest-page, .crop-page, .disease-page,
+.weather-page, .history-page, .about-page { color: var(--dw-ink); }
+.section-heading h2 { color: var(--dw-ranch) !important; }
+.feature-card, .dashboard-card, .crop-card, .disease-card, .weather-card,
+.history-card, .guest-card, .crop-container, .disease-container,
+.weather-container, .crop-result, .disease-result, .weather-result,
+.farming-tip, .upload-box {
+  background: rgba(247, 242, 232, .96) !important;
+  color: var(--dw-ink) !important;
+  border: 1px solid var(--dw-border) !important;
+  border-radius: 16px;
+  box-shadow: var(--dw-shadow) !important;
+}
+.feature-card:hover, .dashboard-card:hover {
+  border-color: #b59a60 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(56, 42, 26, .14) !important;
+}
+.feature-card h2, .dashboard-card h2, .crop-card h2, .disease-card h2,
+.weather-card h2, .guest-card h1, .feature-card h3 { color: var(--dw-ranch) !important; }
+.feature-card p, .dashboard-card p, .guest-card p, .crop-card p,
+.disease-card p, .weather-card p { color: var(--dw-muted) !important; }
+
+input, select, textarea {
+  background: #fffaf1 !important;
+  color: var(--dw-ink) !important;
+  border: 1px solid #c8b999 !important;
+  border-radius: 9px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid rgba(130, 144, 93, .35) !important;
+  border-color: var(--dw-sage) !important;
+  box-shadow: none !important;
+}
+label { color: var(--dw-ranch) !important; }
+
+.dashboard-body { background: linear-gradient(180deg, #f7f2e8, #e9dfc8) !important; }
+.main-navbar { display: flex; flex-wrap: wrap; gap: 14px; }
+.nav-links a { border-radius: 8px; }
+.nav-links a.active, .nav-links a:hover {
+  background: #526848 !important;
+  color: #fff8ed !important;
+  box-shadow: none !important;
+}
+.user-pill { background: #e5d8b9 !important; color: var(--dw-ranch) !important; }
+.logout-btn { color: #f0c3a7 !important; }
+
+.weather-main, .weather-details, .weather-detail, .input-group {
+  background: #f1e7d4 !important;
+  border-color: var(--dw-border) !important;
+  color: var(--dw-ink) !important;
+}
+.temperature, .result-label { color: var(--dw-rust) !important; }
+.crop-result, .disease-result, .weather-result { border-top: 4px solid var(--dw-gold) !important; }
+.farming-tip { background: linear-gradient(110deg, #f7f0df, #e8ddc4) !important; }
+
+/* Keep motion understated and respect reduced-motion preferences. */
+*, *::before, *::after { text-shadow: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 760px) {
+  .navbar, .main-navbar { padding: 14px 5% !important; }
+  .nav-links { flex-wrap: wrap; }
+  .hero { gap: 20px; }
+  .feature-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}

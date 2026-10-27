@@ -9,6 +9,227 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* ================= CAMERA & BILINGUAL RESULT STYLES ================= */
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .mode-tab-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #2e7d32;
+            background: #f1f8e9;
+            color: #1b5e20;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .mode-tab-btn.active,
+        .mode-tab-btn:hover {
+            background: #2e7d32;
+            color: #ffffff;
+        }
+
+        .camera-box {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #4caf50;
+            border-radius: 14px;
+            background: #f9fbe7;
+            margin-bottom: 16px;
+        }
+
+        .camera-video-wrap {
+            position: relative;
+            max-width: 420px;
+            margin: 12px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        #camera-stream {
+            width: 100%;
+            display: block;
+            max-height: 320px;
+            object-fit: cover;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .cam-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.92rem;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+
+        .cam-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .cam-btn-start {
+            background: #2e7d32;
+            color: #fff;
+        }
+
+        .cam-btn-capture {
+            background: #ff8f00;
+            color: #fff;
+        }
+
+        .cam-btn-switch {
+            background: #0277bd;
+            color: #fff;
+        }
+
+        .cam-btn-retake {
+            background: #c62828;
+            color: #fff;
+        }
+
+        .live-preview-box {
+            display: none;
+            margin: 16px auto;
+            text-align: center;
+        }
+
+        .live-preview-box img {
+            max-width: 280px;
+            max-height: 240px;
+            border-radius: 12px;
+            border: 3px solid #2e7d32;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .live-preview-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #e8f5e9;
+            color: #1b5e20;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Bilingual Diagnosis Breakdown */
+        .lang-switch-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: 1px solid #81c784;
+            background: #ffffff;
+            color: #1b5e20;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .lang-btn.active {
+            background: #2e7d32;
+            color: #ffffff;
+            border-color: #2e7d32;
+        }
+
+        .disease-subtitle-hi {
+            font-size: 1.15rem;
+            color: #2e7d32;
+            font-weight: 600;
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+
+        .diagnosis-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-top: 16px;
+            text-align: left;
+        }
+
+        .diagnosis-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid #2e7d32;
+            border-radius: 10px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .diagnosis-section.problem-box {
+            border-left-color: #e65100;
+        }
+
+        .diagnosis-section.symptom-box {
+            border-left-color: #f9a825;
+        }
+
+        .diagnosis-section.care-box {
+            border-left-color: #2e7d32;
+        }
+
+        .diagnosis-section h4 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            color: #1b5e20;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .diagnosis-section.problem-box h4 {
+            color: #bf360c;
+        }
+
+        .diagnosis-section.symptom-box h4 {
+            color: #f57f17;
+        }
+
+        .lang-text-en {
+            margin: 0 0 6px 0;
+            color: #263238;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .lang-text-hi {
+            margin: 0;
+            color: #1b5e20;
+            background: #f1f8e9;
+            padding: 8px 10px;
+            border-radius: 6px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -65,8 +286,10 @@
         </h1>
 
         <p>
-            Upload a clear image of a plant leaf
-            and let AgriSense AI analyze it.
+            Click a live photo with your camera or upload a plant leaf image —
+            AgriSense AI will detect the disease and explain the problem in English &amp; Hindi.
+            <br>
+            <small>कैमरे से सीधे पौधे की फोटो खींचें या अपलोड करें और जानें पौधे में क्या दिक्कत है और उसका इलाज क्या है।</small>
         </p>
 
     </section>
@@ -76,14 +299,37 @@
 
     <section class="disease-card">
 
+        <!-- MODE SWITCH TABS -->
+        <div class="mode-tabs">
+            <button type="button"
+                    id="tab-upload-btn"
+                    class="mode-tab-btn active"
+                    onclick="switchMode('upload')">
+                📁 Upload Photo / फोटो अपलोड करें
+            </button>
 
-        <!-- UPLOAD FORM -->
+            <button type="button"
+                    id="tab-camera-btn"
+                    class="mode-tab-btn"
+                    onclick="switchMode('camera')">
+                📷 Click Photo with Camera / कैमरे से फोटो खींचें
+            </button>
+        </div>
 
-        <form method="POST"
+
+        <!-- UPLOAD & CAMERA FORM -->
+
+        <form id="disease-form"
+              method="POST"
               enctype="multipart/form-data">
 
+            <!-- Hidden input to store base64 photo captured from camera -->
+            <input type="hidden"
+                   name="camera_image"
+                   id="camera-image-input">
 
-            <div class="upload-box">
+            <!-- 1. FILE UPLOAD BOX -->
+            <div class="upload-box" id="upload-box-section">
 
                 <div class="upload-icon">
                     🌿
@@ -94,17 +340,86 @@
                 </h2>
 
                 <p>
-                    Choose a clear photo of the affected
-                    plant leaf.
+                    Choose a clear photo of the affected plant leaf
+                    (पौधे की पत्ती की साफ फोटो चुनें).
                 </p>
 
                 <input
+                    id="file-input"
                     class="file-input"
                     type="file"
                     name="plant_image"
-                    accept=".jpg,.jpeg,.png"
-                    required>
+                    accept=".jpg,.jpeg,.png,image/*"
+                    onchange="handleFileSelect(event)">
 
+            </div>
+
+            <!-- 2. LIVE CAMERA CAPTURE BOX -->
+            <div class="camera-box" id="camera-box-section">
+
+                <div class="upload-icon">
+                    📸
+                </div>
+
+                <h2>
+                    Click Live Plant Photo (कैमरे से फोटो खींचें)
+                </h2>
+
+                <p>
+                    Point your camera at the affected leaf and click <strong>Capture Photo</strong>.
+                </p>
+
+                <div class="camera-video-wrap" id="video-container" style="display: none;">
+                    <video id="camera-stream" autoplay playsinline muted></video>
+                </div>
+
+                <canvas id="camera-canvas" style="display: none;"></canvas>
+
+                <div class="camera-controls">
+                    <button type="button"
+                            id="start-cam-btn"
+                            class="cam-btn cam-btn-start"
+                            onclick="startCamera()">
+                        🎥 Open Camera / कैमरा खोलें
+                    </button>
+
+                    <button type="button"
+                            id="capture-cam-btn"
+                            class="cam-btn cam-btn-capture"
+                            style="display: none;"
+                            onclick="capturePhoto()">
+                        📸 Click Photo / फोटो खींचें
+                    </button>
+
+                    <button type="button"
+                            id="switch-cam-btn"
+                            class="cam-btn cam-btn-switch"
+                            style="display: none;"
+                            onclick="switchCameraFacing()">
+                        🔄 Flip Camera
+                    </button>
+
+                    <button type="button"
+                            id="retake-cam-btn"
+                            class="cam-btn cam-btn-retake"
+                            style="display: none;"
+                            onclick="retakePhoto()">
+                        🔁 Retake / दोबारा खींचें
+                    </button>
+                </div>
+
+                <p id="camera-status-msg" style="margin-top: 10px; color: #c62828; font-size: 0.9rem; display: none;"></p>
+
+            </div>
+
+            <!-- INSTANT PREVIEW BEFORE SUBMITTING -->
+            <div class="live-preview-box" id="instant-preview-box">
+                <img id="instant-preview-img" src="" alt="Selected Plant Photo Preview">
+                <div>
+                    <span class="live-preview-badge" id="instant-preview-label">
+                        ✅ Photo Ready for AI Analysis / फोटो जांच के लिए तैयार है
+                    </span>
+                </div>
             </div>
 
 
@@ -112,7 +427,7 @@
                 type="submit"
                 class="analyze-button">
 
-                🔍 Analyze Plant
+                🔍 Analyze Plant / पौधे की जांच करें
 
             </button>
 
@@ -139,7 +454,7 @@
         <div class="preview-section">
 
             <h3>
-                📷 Uploaded Plant
+                📷 Analyzed Plant Photo / जांची गई पत्ती की फोटो
             </h3>
 
             <img
@@ -157,21 +472,41 @@
 
         <div class="result-card">
 
-            <div class="result-title">
-                🌿 PLANT ANALYSIS
+            <div class="lang-switch-bar">
+                <button type="button" class="lang-btn active" onclick="setLanguageView('both', this)">
+                    English + हिंदी (Both)
+                </button>
+                <button type="button" class="lang-btn" onclick="setLanguageView('en', this)">
+                    English Only
+                </button>
+                <button type="button" class="lang-btn" onclick="setLanguageView('hi', this)">
+                    केवल हिंदी
+                </button>
             </div>
 
+            <div class="result-title">
+                🌿 AI PLANT HEALTH REPORT / पौधे की स्वास्थ्य रिपोर्ट
+            </div>
 
-            <h2>
-                {{ result.replace("_", " ") }}
-            </h2>
+            {% if details %}
+                <h2>
+                    {{ details.name_en }}
+                </h2>
+                <div class="disease-subtitle-hi">
+                    {{ details.name_hi }}
+                </div>
+            {% else %}
+                <h2>
+                    {{ result.replace("_", " ") }}
+                </h2>
+            {% endif %}
 
 
             {% if confidence %}
 
             <div class="confidence">
 
-                📊 Confidence:
+                📊 AI Confidence (सटीकता):
                 {{ "%.2f"|format(confidence|float) }}%
 
             </div>
@@ -179,7 +514,52 @@
             {% endif %}
 
 
-            {% if suggestion %}
+            {% if details %}
+
+            <div class="diagnosis-grid">
+
+                <!-- 1. WHAT IS THE PROBLEM IN THE PLANT -->
+                <div class="diagnosis-section problem-box">
+                    <h4>
+                        🔍 What is the Problem in the Plant? / पौधे में क्या दिक्कत है?
+                    </h4>
+                    <p class="lang-text-en">
+                        <strong>English:</strong> {{ details.problem_en }}
+                    </p>
+                    <p class="lang-text-hi">
+                        <strong>हिंदी:</strong> {{ details.problem_hi }}
+                    </p>
+                </div>
+
+                <!-- 2. VISIBLE SYMPTOMS -->
+                <div class="diagnosis-section symptom-box">
+                    <h4>
+                        🍂 Key Symptoms on Leaf / पत्ती पर दिखने वाले लक्षण
+                    </h4>
+                    <p class="lang-text-en">
+                        <strong>English:</strong> {{ details.symptoms_en }}
+                    </p>
+                    <p class="lang-text-hi">
+                        <strong>हिंदी:</strong> {{ details.symptoms_hi }}
+                    </p>
+                </div>
+
+                <!-- 3. TREATMENT & CARE SUGGESTION -->
+                <div class="diagnosis-section care-box">
+                    <h4>
+                        💡 Solution &amp; Care Advice / इलाज और बचाव के उपाय
+                    </h4>
+                    <p class="lang-text-en">
+                        <strong>English:</strong> {{ details.suggestion_en }}
+                    </p>
+                    <p class="lang-text-hi">
+                        <strong>हिंदी:</strong> {{ details.suggestion_hi }}
+                    </p>
+                </div>
+
+            </div>
+
+            {% elif suggestion %}
 
             <div class="suggestion">
 
@@ -210,13 +590,13 @@
         <div>
 
             <h3>
-                Smart Farming Tip
+                Smart Farming Tip / स्मार्ट खेती टिप
             </h3>
 
             <p>
-                For better results, upload a clear,
-                well-lit image where the plant leaf
-                is clearly visible.
+                For better results, click or upload a clear, well-lit photo where the affected plant leaf is clearly visible.
+                <br>
+                <small>सही परिणाम के लिए, अच्छी रोशनी में पत्ती के प्रभावित हिस्से की साफ फोटो खींचें या अपलोड करें।</small>
             </p>
 
         </div>
@@ -227,7 +607,159 @@
 </main>
 
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script>
+    let mediaStream = null;
+    let currentFacingMode = "environment"; // Rear camera by default on phones
+
+    function switchMode(mode) {
+        const uploadBox = document.getElementById("upload-box-section");
+        const cameraBox = document.getElementById("camera-box-section");
+        const tabUpload = document.getElementById("tab-upload-btn");
+        const tabCamera = document.getElementById("tab-camera-btn");
+
+        if (mode === "camera") {
+            uploadBox.style.display = "none";
+            cameraBox.style.display = "block";
+            tabUpload.classList.remove("active");
+            tabCamera.classList.add("active");
+            startCamera();
+        } else {
+            stopCamera();
+            cameraBox.style.display = "none";
+            uploadBox.style.display = "block";
+            tabCamera.classList.remove("active");
+            tabUpload.classList.add("active");
+        }
+    }
+
+    async function startCamera() {
+        const video = document.getElementById("camera-stream");
+        const videoContainer = document.getElementById("video-container");
+        const startBtn = document.getElementById("start-cam-btn");
+        const captureBtn = document.getElementById("capture-cam-btn");
+        const switchBtn = document.getElementById("switch-cam-btn");
+        const retakeBtn = document.getElementById("retake-cam-btn");
+        const statusMsg = document.getElementById("camera-status-msg");
+
+        statusMsg.style.display = "none";
+        stopCamera();
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            statusMsg.textContent = "Camera access is not supported in this browser. Please use Upload Photo instead.";
+            statusMsg.style.display = "block";
+            return;
+        }
+
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: { ideal: currentFacingMode } },
+                audio: false
+            });
+            video.srcObject = mediaStream;
+            videoContainer.style.display = "block";
+            startBtn.style.display = "none";
+            captureBtn.style.display = "inline-block";
+            switchBtn.style.display = "inline-block";
+            retakeBtn.style.display = "none";
+        } catch (err) {
+            console.error("Camera error:", err);
+            statusMsg.textContent = "Unable to access camera. Please allow camera permission or choose Upload Photo. / कैमरा अनुमति दें या फोटो अपलोड करें।";
+            statusMsg.style.display = "block";
+        }
+    }
+
+    function stopCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+    }
+
+    function switchCameraFacing() {
+        currentFacingMode = (currentFacingMode === "environment") ? "user" : "environment";
+        startCamera();
+    }
+
+    function capturePhoto() {
+        const video = document.getElementById("camera-stream");
+        const canvas = document.getElementById("camera-canvas");
+        const cameraInput = document.getElementById("camera-image-input");
+        const fileInput = document.getElementById("file-input");
+        const previewBox = document.getElementById("instant-preview-box");
+        const previewImg = document.getElementById("instant-preview-img");
+        const previewLabel = document.getElementById("instant-preview-label");
+        const videoContainer = document.getElementById("video-container");
+        const captureBtn = document.getElementById("capture-cam-btn");
+        const switchBtn = document.getElementById("switch-cam-btn");
+        const retakeBtn = document.getElementById("retake-cam-btn");
+
+        if (!video.videoWidth || !video.videoHeight) {
+            return;
+        }
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        cameraInput.value = dataUrl;
+        fileInput.value = "";
+
+        previewImg.src = dataUrl;
+        previewLabel.textContent = "📸 Camera Photo Captured! Click 'Analyze Plant' below / फोटो खींच ली गई है!";
+        previewBox.style.display = "block";
+
+        stopCamera();
+        videoContainer.style.display = "none";
+        captureBtn.style.display = "none";
+        switchBtn.style.display = "none";
+        retakeBtn.style.display = "inline-block";
+    }
+
+    function retakePhoto() {
+        const cameraInput = document.getElementById("camera-image-input");
+        const previewBox = document.getElementById("instant-preview-box");
+        cameraInput.value = "";
+        previewBox.style.display = "none";
+        startCamera();
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const cameraInput = document.getElementById("camera-image-input");
+        const previewBox = document.getElementById("instant-preview-box");
+        const previewImg = document.getElementById("instant-preview-img");
+        const previewLabel = document.getElementById("instant-preview-label");
+
+        if (file) {
+            cameraInput.value = "";
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewLabel.textContent = "✅ Selected Photo Ready for Analysis / फोटो जांच के लिए तैयार है";
+                previewBox.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function setLanguageView(lang, btnElement) {
+        const buttons = document.querySelectorAll(".lang-btn");
+        buttons.forEach(b => b.classList.remove("active"));
+        btnElement.classList.add("active");
+
+        const enBlocks = document.querySelectorAll(".lang-text-en");
+        const hiBlocks = document.querySelectorAll(".lang-text-hi");
+
+        enBlocks.forEach(el => {
+            el.style.display = (lang === "hi") ? "none" : "block";
+        });
+        hiBlocks.forEach(el => {
+            el.style.display = (lang === "en") ? "none" : "block";
+        });
+    }
+</script>
 
 </body>
 
